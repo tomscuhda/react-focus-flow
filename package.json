@@ -1,6 +1,6 @@
 {
   "name": "react-focus-flow",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React components to define isolated focus flows",
   "main": "lib/index.js",
   "scripts": {
