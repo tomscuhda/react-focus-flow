@@ -31,10 +31,10 @@
     "webpack-dev-server": "^2.11.0"
   },
   "author": "Christian Toms <tomscd53@gmail.com>",
-  "homepage": "https://github.com/wildbulbasaur1/react-focus-flow",
+  "homepage": "https://github.com/tomscuhda/react-focus-flow",
   "repository": {
     "type": "git",
-    "url": "git@github.com:wildbulbasaur1/react-focus-flow.git"
+    "url": "git@github.com:tomscuhda/react-focus-flow.git"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",

@@ -3,6 +3,15 @@ import { render } from "react-dom";
 import { FocusFlow, Focusable } from "../../lib";
 import "./styles.css";
 
+const Other = () => (
+  <div>
+    Nested Component
+    <Focusable index={3}>
+      <input placeholder="i'm nested and at index 3" />
+    </Focusable>
+  </div>
+);
+
 function Demo() {
   return (
     <div>
@@ -14,6 +23,7 @@ function Demo() {
         <Focusable index={2}>
           <button>second</button>
         </Focusable>
+        <Other />
       </FocusFlow>
     </div>
   );
