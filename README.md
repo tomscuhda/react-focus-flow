@@ -47,7 +47,7 @@ Marks the root of a focus flow. When active, focus will be restricted to this su
 
 Indicates if the flow is active i.e., should tab order be confined to this FocusFlow. Easy way to switch behavior on/off.
 
-## <Focusable />
+## \<Focusable /\>
 
 Defines a focusable element in the flow. NOTE: this component does not wrap it's children in any extraneous elements - only what is passed as a child will render.
 
