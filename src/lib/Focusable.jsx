@@ -6,11 +6,14 @@ import FocusFlow from "./FocusFlow";
 export default class Focusable extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
+    children: PropTypes.element.isRequired,
+    onFocusTurn: PropTypes.func
   };
 
   static defaultProps = {
-    autoFocus: false
+    autoFocus: false,
+    onFocusTurn: undefined
   };
 
   static contextTypes = {
@@ -24,7 +27,9 @@ export default class Focusable extends React.Component {
 
   componentWillMount() {
     if (!this.context.focusFlow) {
-      throw "All <Focusable> components must be a descendant of a <FocusFlow> component";
+      throw new Error(
+        "All <Focusable> components must be a descendant of a <FocusFlow> component"
+      );
     }
     this.focusFlow = this.context.focusFlow;
   }
@@ -45,11 +50,20 @@ export default class Focusable extends React.Component {
   }
 
   focus() {
-    this.node.focus();
+    console.log("focus call");
+
+    const { onFocusTurn } = this.props;
+    if (onFocusTurn) {
+      onFocusTurn();
+    } else {
+      this.node.focus();
+    }
   }
+
   isDisabled() {
     return this.node.disabled;
   }
+
   render() {
     const child = React.Children.only(this.props.children);
 
@@ -59,6 +73,7 @@ export default class Focusable extends React.Component {
         if (typeof child.ref === "function") {
           child.ref(node);
         }
+
         if (node === null) {
           return;
         }
@@ -71,6 +86,7 @@ export default class Focusable extends React.Component {
         if (typeof child.props.onClick === "function") {
           child.props.onClick(e);
         }
+
         if (!e.defaultPrevented) {
           this.focusFlow.setActive(this);
         }

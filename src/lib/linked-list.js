@@ -20,6 +20,7 @@ const LinkedList = () => ({
   },
 
   remove(node) {
+    /* eslint-disable no-param-reassign */
     // if length is one, null out the head and return
     if (node === node.next) {
       this.head = null;
@@ -39,12 +40,14 @@ const LinkedList = () => ({
     return this.head === null;
   },
   find(predicate, start, direction = "forward") {
+    /* eslint-disable no-restricted-syntax */
     const nodes = this[Symbol.iterator](start, direction);
     for (const node of nodes) {
       if (predicate(node)) {
         return node;
       }
     }
+    return undefined;
   },
   forEach(fn, start = this.head, direction = "forward") {
     const nodes = this[Symbol.iterator](start, direction);
@@ -54,7 +57,9 @@ const LinkedList = () => ({
   },
   length() {
     let count = 0;
-    this.forEach(() => count++);
+    this.forEach(() => {
+      count += 1;
+    });
     return count;
   },
 
@@ -64,7 +69,10 @@ const LinkedList = () => ({
     node.prev.next = node;
     after.prev = node;
   },
-  [Symbol.iterator]: function*(start = this.head, direction = "forward") {
+  [Symbol.iterator]: function* linkedListGenerator(
+    start = this.head,
+    direction = "forward"
+  ) {
     let cur = start;
 
     if (this.isEmpty()) return;
