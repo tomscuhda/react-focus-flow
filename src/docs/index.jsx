@@ -23,14 +23,6 @@ function Demo() {
         <Focusable index={2}>
           <button>second</button>
         </Focusable>
-        <Focusable
-          onFocusTurn={() => {
-            console.log("ugh");
-          }}
-          index={4}
-        >
-          <div>onFocus</div>
-        </Focusable>
         <Other />
       </FocusFlow>
     </div>
