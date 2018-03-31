@@ -1,6 +1,10 @@
 # React Focus Flow
 React components to define isolated focus flows. Especially useful for modals or any other scenario where you might not want global tabindex behavior. Basically local tabindex.
 
+## Installation
+
+`npm install react-focus-flow --save`
+
 ## Usage
 
 ```javascript
@@ -22,7 +26,7 @@ export default class SomeModal extends React.Component {
         </Focusable>
         <Focusable autoFocus index={2}>
           <button>second</button>
-        </Focusable
+        </Focusable>
         <Other />
       </FocusFlow>
     );
@@ -36,6 +40,39 @@ Behaves pretty much like tabindex.
 - disabled elements will be skipped
 - Focus flow will dynamically update itself when a `<Focusable />` component mounts and unmounts - no need to rerender entire `<FocusFlow/ >`
 - When no element is in focus but the flow is still active, tab will bring focus to whatever the last focused element was before blur
+
+A focusable attempts to focus its child by calling `focus` on the child's [ref](https://reactjs.org/docs/refs-and-the-dom.html). So, if the child is an HTMLElement, calling focus on the child's ref will call the HTMLElement `focus` method. If the child is a component, the component will need to define it's own focus method to manage its focus behavior or use [ref forwarding](https://reactjs.org/docs/forwarding-refs.html). Alternatively, you can bypass this altogether and define custom focus behavior using the `onFocusTurn` prop. 
+
+## Examples
+
+### Focusing a [styled component](https://github.com/styled-components/styled-components)
+
+```javascript
+import styled from 'styled-components';
+
+const Input = styled.input`
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+`;
+
+...
+
+handleInputFocus = () => {
+  this.input.focus();
+}
+
+render() {
+  return (
+    ...
+    <Focusable onFocusTurn={this.handleInputFocus} index={5}>
+      <Input innerRef={(node) => { this.input = node; }} />
+    </Focusable>
+    ...
+  )
+}
+
+```
 
 ## \<FocusFlow /\>
 
@@ -53,14 +90,19 @@ Defines a focusable element in the flow. NOTE: this component does not wrap it's
 
 ### Props
 
-**index**
+**index: number**
 
 Required. Indicates the order in which this `<Focusable />` should be focused. Basically tabindex.
 
-**autoFocus**
+**autoFocus = false**
 
 If you want an element to autofocus, mark the `<Focusable />` component, NOT the element itself. 
 
+**onFocusTurn: () => void**
+
+Define custom behavior for this focusable's 'turn' i.e., when this focusable should focus.
+
 **children**
 
-Only one child is allowed. Does not have to be an element, can also be a component that defines custom focus behavior. Just provide a `focus` method on your component. 
+Only one child is allowed. Can be DOM primitive or component. Just be sure to provide a `focus` method on your component. 
+
